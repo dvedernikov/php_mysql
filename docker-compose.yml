@@ -1,46 +1,46 @@
-ersion: '3'
-ervices:
-  mysql:
-    image: mysql
-    container_name: pktb-mysql-server
-    command: --default-authentication-plugin=mysql_native_password
-    working_dir: /application
-    volumes:
-        - .:/application
-        - ./db:/var/lib/mysql
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=Pa55w0rd
-      - MYSQL_DATABASE=keycloak
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=test
-    ports:
-      - 3306:3306    
-    networks:
-      - app-network
-
-  phpmyadmin:
-    container_name: pktb-phpmyadmin
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-        - mysql
-    links: 
-        - mysql
-    ports:
-        - 8082:80
-    environment:
-        PMA_HOST: mysql
-        MYSQL_USER: user
-        MYSQL_PASSWORD: test
-        MYSQL_ROOT_PASSWORD: Pa55w0rd
-        UPLOAD_LIMIT: 1G
-    restart: always
-    networks:
+Version: '3'
+  Services:
+    mysql:
+      image: mysql
+      container_name: pktb-mysql-server
+      command: --default-authentication-plugin=mysql_native_password
+      working_dir: /application
+      volumes:
+          - .:/application
+          - ./db:/var/lib/mysql
+      restart: always
+      environment:
+        - MYSQL_ROOT_PASSWORD=Pa55w0rd
+        - MYSQL_DATABASE=keycloak
+        - MYSQL_USER=user
+        - MYSQL_PASSWORD=test
+      ports:
+        - 3306:3306    
+      networks:
         - app-network
-  
-    nginx:
-    image: nginx:latest
-      - ./log/nginx:/var/log/nginx
-    ports:
-      - 443:443
+
+    phpmyadmin:
+      container_name: pktb-phpmyadmin
+      image: phpmyadmin/phpmyadmin
+      depends_on:
+          - mysql
+      links: 
+          - mysql
+      ports:
+          - 8082:80
+      environment:
+          PMA_HOST: mysql
+          MYSQL_USER: user
+          MYSQL_PASSWORD: test
+          MYSQL_ROOT_PASSWORD: Pa55w0rd
+          UPLOAD_LIMIT: 1G
+      restart: always
+      networks:
+          - app-network
     
+      nginx:
+      image: nginx:latest
+        - ./log/nginx:/var/log/nginx
+      ports:
+        - 443:443
+      
